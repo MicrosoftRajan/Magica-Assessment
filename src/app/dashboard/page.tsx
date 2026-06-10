@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
 import {
   Plus,
   Workflow,
@@ -11,6 +10,7 @@ import {
   Loader2,
   MoreHorizontal,
 } from "lucide-react";
+import { Sidebar } from "@/components/Sidebar";
 
 interface WorkflowItem {
   id: string;
@@ -88,28 +88,10 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-56 border-r border-[#e4e4e7] bg-white flex flex-col">
-        <div className="flex items-center gap-2 px-5 py-5 border-b border-[#e4e4e7]">
-          <div className="w-8 h-8 rounded-lg bg-[#2563eb] flex items-center justify-center">
-            <Workflow className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-semibold text-[15px]">Magica</span>
-        </div>
-        <nav className="flex-1 px-3 py-4">
-          <div className="px-3 py-2 text-xs font-medium text-[#71717a] uppercase tracking-wider">
-            Workflows
-          </div>
-          <div className="px-3 py-2 rounded-lg bg-[#f4f4f5] text-sm font-medium text-[#18181b]">
-            All Workflows
-          </div>
-        </nav>
-        <div className="px-4 py-4 border-t border-[#e4e4e7]">
-          <UserButton />
-        </div>
-      </aside>
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar />
 
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 overflow-y-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-semibold text-[#18181b]">Workflows</h1>
