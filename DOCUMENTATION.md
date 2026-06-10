@@ -1,4 +1,4 @@
-# NextFlow — Phase-wise Development Documentation
+# Magica — Phase-wise Development Documentation
 
 This document explains how the project was built, phase by phase, with the most important code from each phase.
 

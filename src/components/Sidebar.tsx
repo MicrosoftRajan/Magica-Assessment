@@ -79,7 +79,7 @@ export function Sidebar() {
           onClick={() => router.push("/dashboard")}
           className="text-[17px] font-bold text-[#18181b] tracking-tight"
         >
-          <span className="font-serif italic">N</span>extFlow
+          <span className="font-serif italic">M</span>agica
         </button>
         <button
           onClick={() => setCollapsed(true)}

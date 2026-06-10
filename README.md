@@ -1,4 +1,4 @@
-# NextFlow — AI Workflow Builder
+# Magica — AI Workflow Builder
 
 A visual, node-based AI workflow builder inspired by Galaxy.ai's Workflow Builder. Build pipelines by wiring nodes on a canvas, run them (fully, partially, or a single node), and every run is persisted with full history.
 

@@ -94,7 +94,7 @@ export default function DashboardPage() {
           <div className="w-8 h-8 rounded-lg bg-[#2563eb] flex items-center justify-center">
             <Workflow className="w-4 h-4 text-white" />
           </div>
-          <span className="font-semibold text-[15px]">NextFlow</span>
+          <span className="font-semibold text-[15px]">Magica</span>
         </div>
         <nav className="flex-1 px-3 py-4">
           <div className="px-3 py-2 text-xs font-medium text-[#71717a] uppercase tracking-wider">
