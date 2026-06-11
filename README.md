@@ -122,3 +122,4 @@ src/
 
 LinkedIn: [linkedin.com/in/rajan-yadavv](https://www.linkedin.com/in/rajan-yadavv/) — also logged to the browser console on every page.
 # Magica-Assessment
+Live Demo : https://magica-assessment.vercel.app/
