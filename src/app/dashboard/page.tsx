@@ -88,10 +88,10 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-screen bg-[#f7f7f8]">
       <Sidebar />
 
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-semibold text-[#18181b]">Workflows</h1>

@@ -23,13 +23,27 @@ interface WorkflowItem {
   name: string;
 }
 
-const NAV_ITEMS: { label: string; icon: LucideIcon }[] = [
-  { label: "Tasks", icon: MessageSquare },
-  { label: "Projects", icon: FolderOpen },
-  { label: "Library", icon: LibraryBig },
-  { label: "Flow", icon: Workflow },
-  { label: "Nodes", icon: Boxes },
-  { label: "API / MCP", icon: BookOpen },
+const NAV_ITEMS: {
+  label: string;
+  icon: LucideIcon;
+  href?: string;
+  match?: (pathname: string) => boolean;
+}[] = [
+  {
+    label: "Tasks",
+    icon: MessageSquare,
+    href: "/dashboard",
+    match: (p) => p === "/dashboard",
+  },
+  { label: "Projects", icon: FolderOpen, href: "/dashboard" },
+  { label: "Library", icon: LibraryBig, href: "/dashboard" },
+  {
+    label: "Flow",
+    icon: Workflow,
+    match: (p) => p.startsWith("/workflow/"),
+  },
+  { label: "Nodes", icon: Boxes, href: "/dashboard" },
+  { label: "API / MCP", icon: BookOpen, href: "/dashboard" },
 ];
 
 export function Sidebar() {
@@ -38,6 +52,8 @@ export function Sidebar() {
   const { user } = useUser();
   const [collapsed, setCollapsed] = useState(false);
   const [workflows, setWorkflows] = useState<WorkflowItem[]>([]);
+  const [search, setSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/workflows")
@@ -98,23 +114,47 @@ export function Sidebar() {
           <Plus className="w-4 h-4 text-[#71717a]" />
           New task
         </button>
-        <button className="flex items-center gap-2.5 w-full px-2.5 py-1.5 text-[13px] text-[#3f3f46] rounded-lg hover:bg-[#f4f4f5] transition-colors">
+        <button
+          onClick={() => setSearchOpen((o) => !o)}
+          className="flex items-center gap-2.5 w-full px-2.5 py-1.5 text-[13px] text-[#3f3f46] rounded-lg hover:bg-[#f4f4f5] transition-colors"
+        >
           <Search className="w-4 h-4 text-[#71717a]" />
           Search tasks
         </button>
+        {searchOpen && (
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Filter workflows..."
+            className="w-full mt-1 px-2.5 py-1.5 text-[12px] border border-[#e8e8ec] rounded-lg focus:outline-none focus:border-[#8b5cf6]"
+            autoFocus
+          />
+        )}
       </div>
 
       <div className="mt-4 px-3 space-y-0.5">
-        {NAV_ITEMS.map(({ label, icon: Icon }) => (
-          <button
-            key={label}
-            onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-2.5 w-full px-2.5 py-1.5 text-[13px] text-[#3f3f46] rounded-lg hover:bg-[#f4f4f5] transition-colors"
-          >
-            <Icon className="w-4 h-4 text-[#71717a]" />
-            {label}
-          </button>
-        ))}
+        {NAV_ITEMS.map(({ label, icon: Icon, href, match }) => {
+          const active = match?.(pathname) ?? false;
+          const onNav = () => {
+            if (href) router.push(href);
+          };
+          return (
+            <button
+              key={label}
+              onClick={onNav}
+              className={`flex items-center gap-2.5 w-full px-2.5 py-1.5 text-[13px] rounded-lg transition-colors ${
+                active
+                  ? "bg-[#f0edfd] text-[#6d28d9] font-medium"
+                  : "text-[#3f3f46] hover:bg-[#f4f4f5]"
+              }`}
+            >
+              <Icon
+                className={`w-4 h-4 ${active ? "text-[#6d28d9]" : "text-[#71717a]"}`}
+              />
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       <div className="flex-1 overflow-y-auto mt-4 px-3">
@@ -122,7 +162,11 @@ export function Sidebar() {
           <p className="text-xs text-[#a1a1aa] text-center mt-6">No tasks yet</p>
         ) : (
           <div className="space-y-0.5">
-            {workflows.map((wf) => {
+            {workflows
+              .filter((wf) =>
+                wf.name.toLowerCase().includes(search.toLowerCase()),
+              )
+              .map((wf) => {
               const active = pathname === `/workflow/${wf.id}`;
               return (
                 <button
